@@ -21,7 +21,7 @@ import {
 import { toast } from "sonner";
 
 const Profile = () => {
-  const { data, isLoading } = useLoadUserQuery(); //const {} curly braces jb lgte jb query hota aur const [] square braces jb lgte jb mutation hota
+  const { data, isLoading, refetch } = useLoadUserQuery(); //const {} curly braces jb lgte jb query hota aur const [] square braces jb lgte jb mutation hota
 
   const [name, setName] = useState("");
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -49,13 +49,18 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
     if (isSuccess) {
+      refetch();
       toast.success(data.message || "Profile updated.");
     }
     if (isError) {
       toast.error(error.message || "Failed to update Profile.");
     }
-  }, [error, data, isSuccess, isError]);
+  }, [error, updateUserData, isSuccess, isError]);
 
   if (isLoading) return <h1>Profile Loading...</h1>;
   console.log(data);
@@ -135,8 +140,11 @@ const Profile = () => {
                 </div>
               </div>
               <DialogFooter>
-                <Button disabled={isLoading} onClick={updateUserHandler}>
-                  {isLoading ? (
+                <Button
+                  disabled={updateUserIsLoading}
+                  onClick={updateUserHandler}
+                >
+                  {updateUserIsLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
                       Wait
