@@ -4,6 +4,7 @@ import connectDB from "./database/db.js";
 import router from "./routes/user.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import courseRoute from "./routes/course.route.js";
 
 dotenv.config({});
 
@@ -28,7 +29,7 @@ const PORT = process.env.PORT;
 // apis
 
 app.use("/api/v1/user", router);
-app.use("/api/v1/user", router);
+app.use("/api/v1/course", courseRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
