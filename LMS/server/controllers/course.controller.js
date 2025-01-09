@@ -48,3 +48,31 @@ export const getCreatorCourses = async (req, res) => {
     });
   }
 };
+
+export const editCourse = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const {
+      courseTitle,
+      subTitle,
+      description,
+      category,
+      courseLabel,
+      coursePrice,
+    } = req.body;
+
+    const thumbnail = req.file;
+
+    let course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Failed to create course.",
+    });
+  }
+};
